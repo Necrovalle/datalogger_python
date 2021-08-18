@@ -6,10 +6,21 @@
 #* <URL de gitHub>
 #*******************************************************************************
 
+#*********************************************************************** MODULOS
 from tkinter import *		# Widgets estandar
 from tkinter import ttk		# Widgets nuevos del 8.5+
+import matplotlib
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+#************************************************************ VARIABLES GLOBALES
+x = [1,2,3]
+y = [2,4,1]
+
+
+#************************************************************** SCRIPT PRINCIPAL
 window = Tk()
+matplotlib.use("TkAgg")
 
 #window.geometry('800x600')
 window.resizable(False, False)
@@ -39,7 +50,7 @@ entRutaF.grid(row=1, column=1, padx=(0,5), pady=(0,5))
 
 #Seccion de Configuracion de adquisicion de datos
 grpConf = LabelFrame(window, text='Configuracion: ')
-grpConf.grid(row=0, column=1, padx=0, pady=5)
+grpConf.grid(row=0, column=1, padx=0, pady=5, sticky='NS')
 lbl4 = Label(grpConf, text='Canales:')
 lbl4.grid(row=0, column=0, sticky='E')
 chkCH1 = Checkbutton(grpConf, text='Canal 1')
@@ -78,8 +89,17 @@ btnPAUS.grid(row=3, column=2,padx=5, pady=5)
 #Seccion de grafica de datos
 grpPlot = LabelFrame(window, text='Grafica: ')
 grpPlot.grid(row=0, column=2, padx=5, pady=5, rowspan=2, columnspan=2, sticky='wens')
-lbl7 = Label(grpPlot, text='Grafica interna')
-lbl7.grid(row=0, column=0)
+figure = Figure(figsize=(5, 4), dpi=100)
+plt = figure.add_subplot(1, 1, 1)
+#plt = figure.add_splot()  esta mal
+plt.plot(x, y)
+#plt.xlabel('x - axis')
+#plt.ylabel('y - axis')
+#plt.title('My first graph!')
+canvas = FigureCanvasTkAgg(figure, grpPlot)
+canvas.get_tk_widget().grid(row=0, column=0, padx=5, pady=5)
+
+
 
 window.mainloop()
 
